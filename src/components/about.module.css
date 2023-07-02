@@ -1,0 +1,45 @@
+.heading {
+	text-align: center;
+}
+.container {
+	max-width: 600px;
+	margin: 100px auto;
+	padding: 40px;
+	border-radius: 60px;
+}
+
+.content {
+	background-color: #fff;
+	padding: 30px;
+	border-radius: 60px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Additional funky styles */
+.container {
+	background-image: linear-gradient(to bottom right, #ffeadd, white);
+}
+
+.linkContainer {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.link {
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 14px;
+	padding: 10px 20px;
+	border: 2px solid #ffeadd;
+	border-radius: 30px;
+	transition: background-color 0.3s ease-in-out;
+}
+
+.link:hover {
+	background-color: #fcaeae;
+	border: #fcaeae solid;
+	color: #fff;
+}
