@@ -3,9 +3,6 @@ import { useSession, getSession } from "next-auth/react";
 import About from "../components/About";
 
 export default function Home({}) {
-	const { data: session, status } = useSession();
-
-	console.log(session);
 	return <About />;
 }
 
