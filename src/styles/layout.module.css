@@ -1,0 +1,12 @@
+.imgStyle {
+	position: relative;
+	overflow: hidden;
+}
+
+.cartoonImg {
+	background: url("../../public/assets/flower.jpeg") no-repeat;
+	position: absolute;
+	width: 100%;
+	height: 98%;
+	background-size: cover;
+}
