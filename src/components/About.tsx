@@ -1,6 +1,6 @@
 import exp from "constants";
 import React from "react";
-import classes from "./about.module.css";
+import classes from "./about.module.scss";
 import Link from "next/link";
 export const About = () => {
 	return (
@@ -11,7 +11,7 @@ export const About = () => {
 					<p>
 						Welcome to the funky and efficient to-do app that will help you stay
 						organized and productive. Say goodbye to the chaos of forgotten
-						tasks and hello to a streamlined life of organisation!
+						tasks and hello organisation!!!!
 					</p>
 
 					<div className={classes.linkContainer}>

@@ -1,17 +1,27 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
+import { useSession, getSession } from "next-auth/react";
 import About from "../components/About";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function Home() {
+export default function Home({}) {
 	const { data: session, status } = useSession();
 
-	console.log(session, status);
-	return (
-
-			<About />
-
-	);
+	console.log(session);
+	return <About />;
 }
+
+export const getServerSideProps = async function ({ req, res }) {
+	const session = await getSession({ req });
+
+	if (!session) {
+		return {
+			redirect: {
+				destination: "/login",
+				permanent: false,
+			},
+		};
+	}
+
+	return {
+		props: {},
+	};
+};

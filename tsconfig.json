@@ -23,11 +23,11 @@
 		"next-env.d.ts",
 		"**/*.ts",
 		"**/*.tsx",
-		"src/components/Navbar.jsx",
-		"src/pages/dashboard.jsx",
-		"src/pages/todolist.jsx",
+		"src/components/Navbar.tsx",
+		"src/pages/dashboard.tsx",
+		"src/pages/todolist.tsx",
 		"src/pages/index.tsx",
-		"src/pages/login.jsx"
+		"src/pages/login.tsx"
 	],
 	"exclude": ["node_modules"]
 }

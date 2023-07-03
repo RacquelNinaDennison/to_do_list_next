@@ -1,49 +1,44 @@
-ul {
+.ul {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-h2,
-h3,
-a {
-	color: black;
-}
-
-a {
+.anchor {
 	text-decoration: none;
-}
-a:hover {
-	cursor: pointer;
-	color: #ff8989;
+	color: black;
+	& :hover {
+		cursor: pointer;
+		color: #ff8989;
+	}
 }
 .container {
-    border-bottom: solid white;
+	border-bottom: solid white;
 }
 .logo {
 	margin: 0;
 	font-size: 1.45em;
 }
 
-.main-nav {
+.mainNav {
 	display: flex;
 	margin-top: 5px;
 }
 
 .logo a,
-.main-nav a {
+.mainNav a {
 	padding: 10px 15px;
 	text-transform: uppercase;
 	text-align: center;
 	margin-right: 15px;
 }
 
-.main-nav a {
+.mainNav a {
 	color: #34495e;
 	font-size: 0.99em;
 }
 
-.main-nav a:hover {
+.mainNav a:hover {
 	color: black;
 	border: solid #ff8989;
 	border-radius: 100px;

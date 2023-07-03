@@ -5,7 +5,7 @@
 	height: auto;
 	margin: 150px auto;
 	border-radius: 30px;
-    background-color: #fff;
+	background-color: #fff;
 }
 
 .message {
@@ -15,10 +15,15 @@
 	margin-top: 50px;
 	margin-bottom: 10px;
 }
-
+.paragraph {
+	text-align: center;
+	color: #333;
+	margin-bottom: 50px;
+}
 .buttonContainer {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	margin-top: 10px;
 	padding-bottom: 10px;
 }
@@ -31,6 +36,7 @@
 	padding: 15px 24px;
 	background-color: #fcaeae;
 	width: 50%;
+	text-align: center;
 	border: 2px solid #fcaeae;
 	border-radius: 30px;
 	transition: background-color 0.3s ease-in-out;
