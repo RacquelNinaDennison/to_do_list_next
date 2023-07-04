@@ -7,6 +7,7 @@ import { typeToFlattenedError, z } from "zod";
 import { Note } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@/pages/_app";
+import { toast, Toaster } from "react-hot-toast";
 import LoadingCard from "./LoadingCard";
 
 type Props = {
@@ -17,8 +18,6 @@ type Props = {
 export const Tasks = (props: Props) => {
 	const [note, setNote] = useState({ title: "", content: "" });
 	const [takingNote, setTakingNote] = useState(false);
-	const [emptyField, setEmptyField] = useState(false);
-	const [loading, setIsLoading] = useState(false);
 
 	type CreateNoteResponse = {
 		sucess: boolean;
@@ -47,22 +46,69 @@ export const Tasks = (props: Props) => {
 			return axios.post("/api/item/create", data);
 		},
 		{
-			onMutate: () => {
-				setIsLoading(true);
+			onMutate: (newNote) => {
+				// The old data that will be updated on the UI
+				queryClient.setQueryData(["getNotes"], (oldData: any) => {
+					const updatedData = { ...oldData };
+					updatedData.data.note.push(newNote); // add the
+					return updatedData;
+				});
+
+				return { previousData: queryClient.getQueryData(["getNotes"]) };
 			},
-			onSuccess: () => {
-				queryClient.invalidateQueries(["getNotes"]);
-				console.log("Success");
-			},
-			onError: (err) => {
-				console.log(err);
-				console.error("Something went wrong :(");
+			onError: (err, variables, context: any) => {
+				queryClient.setQueryData(["getNotes"], context.previousData);
 			},
 			onSettled: () => {
-				setIsLoading(false);
+				queryClient.invalidateQueries(["getNotes"]);
+				toast("Success!");
 			},
 		}
 	);
+
+	const deleteItemMutation = useMutation(
+		(noteId) => {
+			console.log(noteId);
+			return axios.post(`/api/item/delete/`, { noteId: noteId });
+		},
+		{
+			// onMutate: async (deleteNoteId) => {
+			// 	// Stop the queries that may affect this operation
+			// 	await queryClient.cancelQueries(["getNotes"]);
+
+			// 	// Get a snapshot of current data
+			// 	const snapshotOfPreviousTodos = queryClient.getQueryData(["getNotes"]);
+
+			// 	// Modify cache to reflect this optimistic updat
+			// 	queryClient.setQueryData(["getNotes"], (oldTodos: any) => {
+			// 		// Filter out the todo with the deleteId
+			// 		console.log("the old to do ", oldTodos);
+			// 		const updatedTodos = oldTodos.data.note.filter(
+			// 			(todo: any) => todo.id !== deleteNoteId
+			// 		);
+			// 		console.log("Updated to dos", updatedTodos);
+			// 	});
+			// 	// Return a snapshot so we can rollback in case of failure
+			// 	return {
+			// 		snapshotOfPreviousTodos,
+			// 	};
+			// },
+
+			onSuccess: (data) => {
+				queryClient.invalidateQueries(["getNotes"]);
+				toast("Successfully deleted note");
+			},
+
+			onError: (err, variables, context: any) => {
+				queryClient.setQueryData(["getNotes"], context.previousData);
+				toast.error("Unable to delete note. Try again");
+			},
+			onSettled: () => {
+				queryClient.invalidateQueries(["getNotes"]);
+			},
+		}
+	);
+
 	const { isLoading, error, data, isSuccess } = useQuery(
 		["getNotes"],
 		async (): Promise<any> => {
@@ -73,16 +119,20 @@ export const Tasks = (props: Props) => {
 	function handleButtonSubmission(event: any) {
 		event.preventDefault();
 		if (note.title.trim() == "" || note.content.trim() == "") {
-			setEmptyField(true);
+			toast("Fields cannot be empty");
+		} else {
+			createItemMutation.mutate({
+				userId: props.userId,
+				title: note.title,
+				content: note.content,
+			});
+			setNote({ title: "", content: "" });
 		}
-		createItemMutation.mutate({
-			userId: props.userId,
-			title: note.title,
-			content: note.content,
-		});
-		setNote({ title: "", content: "" });
 	}
-
+	const handleDeletingNote = async (noteId: void) => {
+		const mutation = deleteItemMutation.mutate(noteId);
+		console.log(mutation);
+	};
 	function handleNoteMaking(event: any) {
 		const { name, value } = event.target;
 		setNote((prevValue) => {
@@ -122,11 +172,12 @@ export const Tasks = (props: Props) => {
 							<button onClick={handleButtonSubmission}>+</button>
 						</form>
 					</div>
-					<SingleNote notes={data.data.note} />
+					<SingleNote notes={data.data.note} delete={handleDeletingNote} />
 				</>
 			) : (
 				<LoadingCard />
 			)}
+			<Toaster />
 		</>
 	);
 };
