@@ -18,7 +18,7 @@ type Props = {
 export const Tasks = (props: Props) => {
 	const [note, setNote] = useState({ title: "", content: "" });
 	const [takingNote, setTakingNote] = useState(false);
-
+	const [notes, setNotes] = useState([]);
 	type CreateNoteResponse = {
 		sucess: boolean;
 		data: Note | null;
@@ -72,27 +72,28 @@ export const Tasks = (props: Props) => {
 			return axios.post(`/api/item/delete/`, { noteId: noteId });
 		},
 		{
-			// onMutate: async (deleteNoteId) => {
-			// 	// Stop the queries that may affect this operation
-			// 	await queryClient.cancelQueries(["getNotes"]);
+			onMutate: async (deleteNoteId) => {
+				// Stop the queries that may affect this operation
+				await queryClient.cancelQueries(["getNotes"]);
 
-			// 	// Get a snapshot of current data
-			// 	const snapshotOfPreviousTodos = queryClient.getQueryData(["getNotes"]);
+				// Get a snapshot of current data
+				const previousData = queryClient.getQueryData(["getNotes"]);
 
-			// 	// Modify cache to reflect this optimistic updat
-			// 	queryClient.setQueryData(["getNotes"], (oldTodos: any) => {
-			// 		// Filter out the todo with the deleteId
-			// 		console.log("the old to do ", oldTodos);
-			// 		const updatedTodos = oldTodos.data.note.filter(
-			// 			(todo: any) => todo.id !== deleteNoteId
-			// 		);
-			// 		console.log("Updated to dos", updatedTodos);
-			// 	});
-			// 	// Return a snapshot so we can rollback in case of failure
-			// 	return {
-			// 		snapshotOfPreviousTodos,
-			// 	};
-			// },
+				// Modify cache to reflect this optimistic updat
+				queryClient.setQueryData(["getNotes"], (oldTodos: any) => {
+					// Filter out the todo with the deleteId
+					let updatedTodos = { ...oldTodos };
+					updatedTodos.data.note = oldTodos.data.note.filter(
+						(todo: any) => todo.id !== deleteNoteId
+					);
+					return updatedTodos;
+				});
+
+				// Return a snapshot so we can rollback in case of failure
+				return {
+					previousData,
+				};
+			},
 
 			onSuccess: (data) => {
 				queryClient.invalidateQueries(["getNotes"]);
