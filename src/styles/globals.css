@@ -7,9 +7,13 @@
 	padding: none;
 	margin: none;
 	font-family: "Acme", sans-serif;
+	
 }
 
 html {
 	background-color: #ffeadd;
 	font-family: "Dancing Script";
+	display: flex;
+	justify-content: space-evenly;
+
 }

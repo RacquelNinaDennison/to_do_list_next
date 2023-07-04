@@ -6,7 +6,17 @@ import { prisma } from "@/server/db/client";
 import { Adapter } from "next-auth/adapters";
 
 export default NextAuth({
-	// declaring the database connection
+	// declaring the database connection,
+
+	// attaching the user id to the session to access 
+	callbacks: {
+		session({ session, user }) {
+			if (session.user) {
+				session.user.id = user.id;
+			}
+			return session;
+		},
+	},
 	adapter: PrismaAdapter(prisma) as Adapter,
 	providers: [
 		GitHubProvider({

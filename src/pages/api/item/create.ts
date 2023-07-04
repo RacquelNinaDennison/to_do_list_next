@@ -5,7 +5,7 @@ import { typeToFlattenedError, z, ZodError } from "zod";
 import { prisma } from "@/server/db/client";
 
 const NoteCreated = z.object({
-	noteId: z.number(),
+	userId: z.string(),
 	title: z.string(),
 	content: z.string(),
 });
@@ -20,3 +20,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const result = await createNote(req.body);
 	res.status(200).json(result);
 };
+
+const createNote = async (requestData: any): Promise<CreateItemResponse> => {
+	let note: Note | null;
+	try {
+		const data = NoteCreated.parse(requestData);
+		note = await prisma.note.create({
+			data: {
+				userId: data.userId,
+				title: data.title,
+				content: data.content,
+			},
+		});
+	} catch (err) {
+		if (err instanceof ZodError) {
+			return { success: false, data: null, errors: err.flatten() };
+		}
+		throw err;
+	}
+	return { success: true, data: note, errors: null };
+};
+
+export default handler;
