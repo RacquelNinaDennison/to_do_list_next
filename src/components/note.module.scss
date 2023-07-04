@@ -1,0 +1,40 @@
+$button-color: #ff8989;
+
+.noteContainer {
+	border: white solid;
+	width: 20%;
+	height: max-content;
+	flex-wrap: wrap;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: white;
+	padding: 10px;
+	border-radius: 20px;
+	margin: 40px;
+}
+
+.buttonStyle {
+	color: black;
+	border: solid $button-color;
+	border-radius: 20px;
+	background-color: $button-color;
+	margin-top: 30px;
+	align-self: flex-end; /* Added property */
+	width: 70px;
+	padding: 5px;
+	padding-left: 2px;
+	padding-right: 2px;
+
+	&:hover {
+		color: white;
+	}
+}
+
+.heading {
+	padding: 10px;
+}
+
+.content {
+	padding: 5px;
+}
