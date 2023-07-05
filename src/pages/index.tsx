@@ -1,7 +1,7 @@
 import { getSession } from "next-auth/react";
 import About from "../components/About";
 import Head from "next/head";
-import { NextApiRequest } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 export default function Home({}) {
 	return (
 		<>
@@ -17,7 +17,7 @@ export const getServerSideProps = async function ({
 	req,
 }: {
 	req: NextApiRequest;
-	res: any;
+	res: NextApiResponse;
 }) {
 	const session = await getSession({ req });
 
@@ -25,6 +25,14 @@ export const getServerSideProps = async function ({
 		return {
 			redirect: {
 				destination: "/login",
+				permanent: false,
+			},
+		};
+	}
+	if (session) {
+		return {
+			redirect: {
+				destination: "/todolist",
 				permanent: false,
 			},
 		};

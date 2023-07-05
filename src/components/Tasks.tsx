@@ -17,6 +17,7 @@ type Props = {
 
 export const Tasks = (props: Props) => {
 	const [note, setNote] = useState({ title: "", content: "" });
+	const [addedToDataBase, setAddedToDataBase] = useState(true);
 
 	type CreateNoteResponse = {
 		sucess: boolean;
@@ -58,10 +59,12 @@ export const Tasks = (props: Props) => {
 			},
 			onError: (err, variables, context: any) => {
 				queryClient.setQueryData(["getNotes"], context.previousData);
+				setAddedToDataBase(false);
 				toast("Error occured making note. Please try again");
 			},
 			onSettled: () => {
 				queryClient.invalidateQueries(["getNotes"]);
+				setAddedToDataBase(true);
 			},
 		}
 	);
@@ -93,7 +96,6 @@ export const Tasks = (props: Props) => {
 					updatedTodos.data.note = oldTodos.data.note.filter(
 						(todo: any) => todo.id !== deleteNoteId
 					);
-					// toast("Successfully deleted note", { icon: "🗑" });
 					return updatedTodos;
 				});
 
@@ -130,11 +132,13 @@ export const Tasks = (props: Props) => {
 		if (note.title.trim() == "" || note.content.trim() == "") {
 			toast("Fields cannot be empty", { icon: "🥲" });
 		} else {
-			createItemMutation.mutate({
+			const mutation = createItemMutation.mutate({
 				userId: props.userId,
 				title: note.title,
 				content: note.content,
 			});
+			setAddedToDataBase(false);
+			console.log("Mutation", mutation);
 			setNote({ title: "", content: "" });
 		}
 	}
@@ -178,7 +182,12 @@ export const Tasks = (props: Props) => {
 							<button onClick={handleButtonSubmission}>+</button>
 						</form>
 					</div>
-					<SingleNote notes={data.data.note} delete={handleDeletingNote} />
+					<SingleNote
+						key={1}
+						notes={data.data.note}
+						delete={handleDeletingNote}
+				
+					/>
 				</>
 			) : (
 				<LoadingCard />

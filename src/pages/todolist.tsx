@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import Tasks from "@/components/Tasks";
 import LoadingCard from "@/components/LoadingCard";
 import Head from "next/head";
+import { Toaster,toast } from "react-hot-toast";
 
 export const ToDoList = () => {
 	const { data: session, status } = useSession();
@@ -21,7 +22,13 @@ export const ToDoList = () => {
 				""
 			)}
 			{status === "loading" && <LoadingCard />}
-			{!session && status != "loading" ? <SignIn /> : ""}
+			{!session && status != "loading" ?<>
+			<Toaster/>
+			{
+				toast("Sign in to access details")
+			}
+			<SignIn />
+			</> : ""}
 		</>
 	);
 };
