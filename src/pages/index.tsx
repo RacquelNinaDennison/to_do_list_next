@@ -1,8 +1,7 @@
-import toast from "react-hot-toast";
-import { useSession, getSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import About from "../components/About";
 import Head from "next/head";
-
+import { NextApiRequest } from "next";
 export default function Home({}) {
 	return (
 		<>
@@ -14,7 +13,12 @@ export default function Home({}) {
 	);
 }
 
-export const getServerSideProps = async function ({ req, res }) {
+export const getServerSideProps = async function ({
+	req,
+}: {
+	req: NextApiRequest;
+	res: any;
+}) {
 	const session = await getSession({ req });
 
 	if (!session) {
