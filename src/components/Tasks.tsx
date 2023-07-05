@@ -186,7 +186,6 @@ export const Tasks = (props: Props) => {
 						key={1}
 						notes={data.data.note}
 						delete={handleDeletingNote}
-				
 					/>
 				</>
 			) : (
