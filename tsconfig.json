@@ -27,7 +27,10 @@
 		"src/pages/dashboard.tsx",
 		"src/pages/todolist.tsx",
 		"src/pages/index.tsx",
-		"src/pages/login.tsx"
+		"src/pages/login.tsx",
+		"types/**/*.ts",
+		"**/*.ts",
+		"**/*.tsx",
 	],
 	"exclude": ["node_modules"]
 }

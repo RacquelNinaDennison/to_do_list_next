@@ -8,7 +8,7 @@ import { Adapter } from "next-auth/adapters";
 export default NextAuth({
 	// declaring the database connection,
 
-	// attaching the user id to the session to access 
+	// attaching the user id to the session to access
 	callbacks: {
 		session({ session, user }) {
 			if (session.user) {
