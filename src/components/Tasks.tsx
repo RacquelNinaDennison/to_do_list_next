@@ -68,9 +68,16 @@ export const Tasks = (props: Props) => {
 	);
 
 	const deleteItemMutation = useMutation(
-		(noteId) => {
+		async (noteId) => {
 			console.log(noteId);
-			return axios.post(`/api/item/delete/`, { noteId: noteId });
+			const response = await axios.post(`/api/item/delete/`, {
+				noteId: noteId,
+			});
+			console.log("The response is ", response);
+			if (response.data.status === false) {
+				toast.error("Error occured deleting note. Please try again");
+			}
+			return response;
 		},
 		{
 			onMutate: async (deleteNoteId) => {
@@ -87,7 +94,7 @@ export const Tasks = (props: Props) => {
 					updatedTodos.data.note = oldTodos.data.note.filter(
 						(todo: any) => todo.id !== deleteNoteId
 					);
-					toast("Successfully deleted note", { icon: "🗑" });
+					// toast("Successfully deleted note", { icon: "🗑" });
 					return updatedTodos;
 				});
 
@@ -99,6 +106,7 @@ export const Tasks = (props: Props) => {
 
 			onSuccess: (data) => {
 				queryClient.invalidateQueries(["getNotes"]);
+				toast("Successfully deleted note", { icon: "🗑" });
 			},
 
 			onError: (err, variables, context: any) => {

@@ -2,13 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/server/db/client";
 import { Note } from "@prisma/client";
 
-import { typeToFlattenedError, z, ZodError } from "zod";
+import { z, ZodError } from "zod";
 
-type NotesCreatedResponse = {
-	success: boolean;
-	note: Note[] | null;
-	error: typeToFlattenedError<typeof NoteCreated> | null;
-};
 const UserRequest = z.object({
 	noteId: z.string(),
 });
@@ -30,9 +25,10 @@ export default async function handler(
 const deleteNote = async (rawData: any) => {
 	let deletedNote;
 	try {
+		console.log("The user request DATA REQUEST", rawData);
 		const id = UserRequest.parse(rawData);
-
-		deletedNote = await prisma.note.deleteMany({
+		console.log("THE NOTE ID IS ", id.noteId);
+		deletedNote = await prisma.note.delete({
 			where: {
 				id: id.noteId,
 			},
