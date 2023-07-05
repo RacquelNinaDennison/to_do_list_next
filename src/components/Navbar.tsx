@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import styles from "./navbar.module.scss";
+import { useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 
 function Navbar() {
 	const { data: session, status } = useSession();
@@ -13,6 +15,7 @@ function Navbar() {
 	}
 	return (
 		<div className={styles.container}>
+			<Toaster />
 			<nav className={styles.header}>
 				<h1 className={styles.logo}>
 					<a className={styles.anchor} href='#'>
@@ -23,9 +26,6 @@ function Navbar() {
 				<ul className={`${styles.ul} ${classNameExtra} ${styles.mainNav}`}>
 					<li>
 						<Link href='/'>Home</Link>
-					</li>
-					<li>
-						<Link href='/dashboard'>Dashboard</Link>
 					</li>
 					<li>
 						<Link href='/todolist'>list</Link>

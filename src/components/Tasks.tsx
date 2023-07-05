@@ -51,6 +51,7 @@ export const Tasks = (props: Props) => {
 				queryClient.setQueryData(["getNotes"], (oldData: any) => {
 					const updatedData = { ...oldData };
 					updatedData.data.note.push(newNote); // add the
+					toast("Successfully made note!", { icon: "👻" });
 					return updatedData;
 				});
 
@@ -62,7 +63,6 @@ export const Tasks = (props: Props) => {
 			},
 			onSettled: () => {
 				queryClient.invalidateQueries(["getNotes"]);
-				toast("Successfully made note!");
 			},
 		}
 	);
@@ -87,6 +87,7 @@ export const Tasks = (props: Props) => {
 					updatedTodos.data.note = oldTodos.data.note.filter(
 						(todo: any) => todo.id !== deleteNoteId
 					);
+					toast("Successfully deleted note", { icon: "🗑" });
 					return updatedTodos;
 				});
 
@@ -98,7 +99,6 @@ export const Tasks = (props: Props) => {
 
 			onSuccess: (data) => {
 				queryClient.invalidateQueries(["getNotes"]);
-				toast("Successfully deleted note");
 			},
 
 			onError: (err, variables, context: any) => {
@@ -179,7 +179,17 @@ export const Tasks = (props: Props) => {
 			) : (
 				<LoadingCard />
 			)}
-			<Toaster />
+			<Toaster
+				toastOptions={{
+					// Define default options
+					className: "",
+					duration: 2000,
+					style: {
+						background: "#F8F6F4",
+						color: "#212A3E",
+					},
+				}}
+			/>
 		</>
 	);
 };
