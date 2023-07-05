@@ -58,10 +58,11 @@ export const Tasks = (props: Props) => {
 			},
 			onError: (err, variables, context: any) => {
 				queryClient.setQueryData(["getNotes"], context.previousData);
+				toast("Error occured making note. Please try again");
 			},
 			onSettled: () => {
 				queryClient.invalidateQueries(["getNotes"]);
-				toast("Success!");
+				toast("Successfully made note!");
 			},
 		}
 	);
