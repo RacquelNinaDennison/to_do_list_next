@@ -17,8 +17,7 @@ type Props = {
 
 export const Tasks = (props: Props) => {
 	const [note, setNote] = useState({ title: "", content: "" });
-	const [takingNote, setTakingNote] = useState(false);
-	const [notes, setNotes] = useState([]);
+
 	type CreateNoteResponse = {
 		sucess: boolean;
 		data: Note | null;
@@ -167,9 +166,6 @@ export const Tasks = (props: Props) => {
 								placeholder={true ? "Title" : "Start Taking notes"}
 								value={note.title}
 								onChange={handleNoteMaking}
-								onClick={() => {
-									setTakingNote(true);
-								}}
 							/>
 
 							<textarea
