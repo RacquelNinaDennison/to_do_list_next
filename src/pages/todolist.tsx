@@ -12,7 +12,7 @@ export const ToDoList = () => {
 	return (
 		<>
 			<Head>
-				<title>Tasks</title>
+				<title>Task list</title>
 			</Head>
 			{status != "loading" && session ? (
 				<>
