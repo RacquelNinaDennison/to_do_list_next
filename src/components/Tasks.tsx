@@ -121,7 +121,7 @@ export const Tasks = (props: Props) => {
 	function handleButtonSubmission(event: any) {
 		event.preventDefault();
 		if (note.title.trim() == "" || note.content.trim() == "") {
-			toast("Fields cannot be empty");
+			toast("Fields cannot be empty", { icon: "🥲" });
 		} else {
 			createItemMutation.mutate({
 				userId: props.userId,

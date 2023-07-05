@@ -1,9 +1,17 @@
 import toast from "react-hot-toast";
 import { useSession, getSession } from "next-auth/react";
 import About from "../components/About";
+import Head from "next/head";
 
 export default function Home({}) {
-	return <About />;
+	return (
+		<>
+			<Head>
+				<title>Home</title>
+			</Head>
+			<About />
+		</>
+	);
 }
 
 export const getServerSideProps = async function ({ req, res }) {
