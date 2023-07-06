@@ -8,6 +8,7 @@ const NoteCreated = z.object({
 	userId: z.string(),
 	title: z.string(),
 	content: z.string(),
+	inDatabase: z.boolean(),
 });
 
 type CreateItemResponse = {
