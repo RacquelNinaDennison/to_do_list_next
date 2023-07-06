@@ -4,7 +4,7 @@ import { Note } from "@prisma/client";
 import { boolean } from "zod";
 
 type Props = {
-	notes: Note[] | null;
+	note: Note;
 	delete: any;
 };
 
@@ -12,21 +12,19 @@ export const SingleNote = (props: Props) => {
 	const handleDeleteButton = (id: any) => {
 		props.delete(id);
 	};
-	// const buttonClass = props.addedToDataBase
-	// 	? styles.activeButton
-	// 	: styles.inactiveButton;
-
+	const note = props.note;
 	return (
 		<>
-			{props?.notes?.map((note) => (
-				<div key={note.id} className={styles.note}>
-					<h1>{note.title}</h1>
-					<p>{note.content}</p>
-					<button onClick={() => handleDeleteButton(note.id)} disabled={false}>
-						Delete
-					</button>
-				</div>
-			))}
+			<div key={note.id} className={styles.note}>
+				<h1>{note.title}</h1>
+				<p>{note.content}</p>
+				<button
+					onClick={() => handleDeleteButton(note.id)}
+					disabled={!note.inDatabase}
+				>
+					Delete
+				</button>
+			</div>
 		</>
 	);
 };

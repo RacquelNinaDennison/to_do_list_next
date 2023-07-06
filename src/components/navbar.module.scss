@@ -36,6 +36,7 @@
 .mainNav a {
 	color: #34495e;
 	font-size: 0.99em;
+	cursor: pointer;
 }
 
 .mainNav a:hover {
@@ -61,4 +62,12 @@
 .loaded {
 	opacity: 1;
 	transition: all 0.2s ease-in;
+}
+.userName {
+	color: black; /* Customize the color */
+	font-weight: bold; /* Customize the font weight */
+	font-size: 18px; /* Customize the font size */
+	font-size: 0.99em;
+	text-align: center;
+	margin-right: 15px;
 }

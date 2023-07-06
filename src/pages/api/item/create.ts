@@ -30,6 +30,7 @@ const createNote = async (requestData: any): Promise<CreateItemResponse> => {
 				userId: data.userId,
 				title: data.title,
 				content: data.content,
+				inDatabase: true,
 			},
 		});
 	} catch (err) {

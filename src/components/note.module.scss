@@ -76,5 +76,13 @@ $button-color: #ff8989;
 		&:hover {
 			color: #fff;
 		}
+
+		&:disabled {
+			color: white;
+			background-color: #9db2bf;
+			border: solid #9db2bf;
+			opacity: 0.65;
+			cursor: not-allowed;
+		}
 	}
 }

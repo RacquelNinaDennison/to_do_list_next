@@ -17,7 +17,6 @@ type Props = {
 
 export const Tasks = (props: Props) => {
 	const [note, setNote] = useState({ title: "", content: "" });
-	const [addedToDataBase, setAddedToDataBase] = useState(true);
 
 	type CreateNoteResponse = {
 		sucess: boolean;
@@ -29,14 +28,18 @@ export const Tasks = (props: Props) => {
 		userId: z.string(),
 		title: z.string(),
 		content: z.string(),
+		inDatabase: z.boolean(),
 	});
 
 	type ItemCreate = {
 		userId: String;
-		title: string;
-		content: string;
+		title: String;
+		content: String;
+		inDatabase: Boolean;
 	};
-
+	type DeleteItem = {
+		noteId: string;
+	};
 	const createItemMutation = useMutation<
 		CreateNoteResponse,
 		CreateNoteResponse,
@@ -50,6 +53,7 @@ export const Tasks = (props: Props) => {
 				// The old data that will be updated on the UI
 				queryClient.setQueryData(["getNotes"], (oldData: any) => {
 					const updatedData = { ...oldData };
+
 					updatedData.data.note.push(newNote); // add the
 					toast("Successfully made note!", { icon: "👻" });
 					return updatedData;
@@ -59,12 +63,11 @@ export const Tasks = (props: Props) => {
 			},
 			onError: (err, variables, context: any) => {
 				queryClient.setQueryData(["getNotes"], context.previousData);
-				setAddedToDataBase(false);
+
 				toast("Error occured making note. Please try again");
 			},
 			onSettled: () => {
 				queryClient.invalidateQueries(["getNotes"]);
-				setAddedToDataBase(true);
 			},
 		}
 	);
@@ -107,7 +110,6 @@ export const Tasks = (props: Props) => {
 
 			onSuccess: (data) => {
 				queryClient.invalidateQueries(["getNotes"]);
-				toast("Successfully deleted note", { icon: "🗑" });
 			},
 
 			onError: (err, variables, context: any) => {
@@ -136,9 +138,9 @@ export const Tasks = (props: Props) => {
 				userId: props.userId,
 				title: note.title,
 				content: note.content,
+				inDatabase: false,
 			});
-			setAddedToDataBase(false);
-			console.log("Mutation", mutation);
+
 			setNote({ title: "", content: "" });
 		}
 	}
@@ -166,8 +168,9 @@ export const Tasks = (props: Props) => {
 					<div className={styles.container}>
 						<form className={styles.createNote}>
 							<input
+								type='text'
 								name='title'
-								placeholder={true ? "Title" : "Start Taking notes"}
+								placeholder={"Title"}
 								value={note.title}
 								onChange={handleNoteMaking}
 							/>
@@ -182,11 +185,15 @@ export const Tasks = (props: Props) => {
 							<button onClick={handleButtonSubmission}>+</button>
 						</form>
 					</div>
-					<SingleNote
-						key={1}
-						notes={data.data.note}
-						delete={handleDeletingNote}
-					/>
+					{data.data.note.map((note: Note) => {
+						return (
+							<SingleNote
+								key={note.id}
+								note={note}
+								delete={handleDeletingNote}
+							/>
+						);
+					})}
 				</>
 			) : (
 				<LoadingCard />

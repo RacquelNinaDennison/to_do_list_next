@@ -4,8 +4,8 @@ export const LoadingCard = () => {
 	return (
 		<div>
 			<form className={styles.createNote}>
-				<input name='title' placeholder='Please wait while' value='' />
-				<textarea name='content' placeholder='LOADING' value='' />
+				<input name='title' placeholder='Please wait while' value='' readOnly />
+				<textarea name='content' placeholder='LOADING' value='' readOnly />
 			</form>
 		</div>
 	);
