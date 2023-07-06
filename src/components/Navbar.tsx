@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useSession, signOut, signIn } from "next-auth/react";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import styles from "./navbar.module.scss";
 
 function Navbar() {
@@ -18,9 +18,15 @@ function Navbar() {
 			<Toaster />
 			<nav className={styles.header}>
 				<h1 className={styles.logo}>
-					<a className={styles.anchor} href='#'>
+					<Link
+						className={styles.anchor}
+						href='#'
+						onClick={() => {
+							toast("Create a note in the list section", { icon: "📚" });
+						}}
+					>
 						To do list
-					</a>
+					</Link>
 				</h1>
 
 				<ul className={`${styles.ul} ${classNameExtra} ${styles.mainNav}`}>
