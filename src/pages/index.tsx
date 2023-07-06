@@ -13,7 +13,7 @@ export default function Home({}) {
 	);
 }
 
-export const getServerSideProps = async function ({
+export const getStaticProps = async function ({
 	req,
 }: {
 	req: NextApiRequest;
