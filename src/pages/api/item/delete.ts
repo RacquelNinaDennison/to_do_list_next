@@ -29,12 +29,10 @@ export default async function handler(
 	res.status(200).json(result);
 }
 
-const deleteNote = async (rawData: any) => {
+const deleteNote = async (rawData: any): Promise<DeletedNoteResponse> => {
 	let deletedNote;
 	try {
-		console.log("The user request DATA REQUEST", rawData);
 		const id = UserRequest.parse(rawData);
-		console.log("THE NOTE ID IS ", id.noteId);
 		deletedNote = await prisma.note.delete({
 			where: {
 				id: id.noteId,

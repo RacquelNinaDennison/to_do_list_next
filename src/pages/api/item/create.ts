@@ -17,7 +17,10 @@ type CreateItemResponse = {
 	errors: typeToFlattenedError<typeof NoteCreated> | null;
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: NextApiRequest,
+	res: NextApiResponse<CreateItemResponse>
+) => {
 	const result = await createNote(req.body);
 	res.status(200).json(result);
 };
