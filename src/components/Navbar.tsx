@@ -51,7 +51,13 @@ function Navbar() {
 					<li>
 						{status === "authenticated" && (
 							<div className={styles.userName}>
-								<span>{session.user.name.toUpperCase()}</span>
+								<span
+									onClick={() => {
+										toast("Welcome " + session.user.name, { icon: "🤗" });
+									}}
+								>
+									{session.user.name.toUpperCase()}
+								</span>
 							</div>
 						)}
 					</li>
