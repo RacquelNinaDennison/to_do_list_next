@@ -9,6 +9,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@/pages/_app";
 import { toast, Toaster } from "react-hot-toast";
 import LoadingCard from "./LoadingCard";
+import {
+	CreateNoteResponse,
+	ItemCreate,
+	DeletedNoteResponse,
+	DeleteItem,
+} from "../../types/ResponseTypes/response.types";
 
 type Props = {
 	userId: string;
@@ -18,28 +24,6 @@ type Props = {
 export const Tasks = (props: Props) => {
 	const [note, setNote] = useState({ title: "", content: "" });
 
-	type CreateNoteResponse = {
-		sucess: boolean;
-		data: Note | null;
-		error: typeToFlattenedError<typeof ZodNoteCreated> | null;
-	};
-
-	const ZodNoteCreated = z.object({
-		userId: z.string(),
-		title: z.string(),
-		content: z.string(),
-		inDatabase: z.boolean(),
-	});
-
-	type ItemCreate = {
-		userId: String;
-		title: String;
-		content: String;
-		inDatabase: Boolean;
-	};
-	type DeleteItem = {
-		noteId: string;
-	};
 	const createItemMutation = useMutation<
 		CreateNoteResponse,
 		CreateNoteResponse,
@@ -72,17 +56,13 @@ export const Tasks = (props: Props) => {
 		}
 	);
 
-	const deleteItemMutation = useMutation(
-		async (noteId) => {
-			console.log(noteId);
-			const response = await axios.post(`/api/item/delete/`, {
-				noteId: noteId,
-			});
-			console.log("The response is ", response);
-			if (response.data.status === false) {
-				toast.error("Error occured deleting note. Please try again");
-			}
-			return response;
+	const deleteItemMutation = useMutation<
+		DeletedNoteResponse,
+		DeletedNoteResponse,
+		DeleteItem
+	>(
+		(data) => {
+			return axios.post("/api/item/delete", data);
 		},
 		{
 			onMutate: async (deleteNoteId) => {
@@ -97,11 +77,11 @@ export const Tasks = (props: Props) => {
 					// Filter out the todo with the deleteId
 					let updatedTodos = { ...oldTodos };
 					updatedTodos.data.note = oldTodos.data.note.filter(
-						(todo: any) => todo.id !== deleteNoteId
+						(todo: any) => todo.id !== deleteNoteId.noteId
 					);
 					return updatedTodos;
 				});
-
+				toast.success("Deleted note successfully ! :) ");
 				// Return a snapshot so we can rollback in case of failure
 				return {
 					previousData,
@@ -134,7 +114,7 @@ export const Tasks = (props: Props) => {
 		if (note.title.trim() == "" || note.content.trim() == "") {
 			toast("Fields cannot be empty", { icon: "🥲" });
 		} else {
-			const mutation = createItemMutation.mutate({
+			createItemMutation.mutate({
 				userId: props.userId,
 				title: note.title,
 				content: note.content,
@@ -144,9 +124,11 @@ export const Tasks = (props: Props) => {
 			setNote({ title: "", content: "" });
 		}
 	}
-	const handleDeletingNote = async (noteId: void) => {
-		const mutation = deleteItemMutation.mutate(noteId);
-		console.log(mutation);
+
+	const handleDeletingNote = async (noteId: any) => {
+		deleteItemMutation.mutate({
+			noteId: noteId,
+		});
 	};
 	function handleNoteMaking(event: any) {
 		const { name, value } = event.target;

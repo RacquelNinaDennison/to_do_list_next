@@ -74,13 +74,6 @@ function Navbar() {
 
 				<ul className={`${styles.ul} ${classNameExtra} ${styles.mainNav}`}>
 					<li>
-						{status === "authenticated" && (
-							<div className={styles.userName}>
-								<span>{session.user.name.toUpperCase()}</span>
-							</div>
-						)}
-					</li>
-					<li>
 						<Link href='/todolist'>list</Link>
 					</li>
 					<li>
@@ -91,11 +84,18 @@ function Navbar() {
 						{status === "authenticated" && (
 							<a
 								onClick={() =>
-									signOut({ callbackUrl: "http://localhost:3000" })
+									signOut({ callbackUrl: process.env.NEXTAUTH_URL })
 								}
 							>
 								Sign out
 							</a>
+						)}
+					</li>
+					<li>
+						{status === "authenticated" && (
+							<div className={styles.userName}>
+								<span>{session.user.name.toUpperCase()}</span>
+							</div>
 						)}
 					</li>
 				</ul>
