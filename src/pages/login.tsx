@@ -7,11 +7,11 @@ import { signIn } from "next-auth/react";
 
 export const login = () => {
 	const handleGoogleSignin = () => {
-		signIn("google", { callbackUrl: "http://localhost:3000/todolist" });
+		signIn("google", { callbackUrl: process.env.NEXTAUTH_URL + "/todolist" });
 	};
 
 	const handleGithubSignin = () => {
-		signIn("github");
+		signIn("github", { callbackUrl: process.env.NEXTAUTH_URL + "/todolist" });
 	};
 	return (
 		<div>
