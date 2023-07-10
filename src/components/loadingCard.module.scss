@@ -38,3 +38,8 @@ form.createNote {
 		background-position-x: -200%;
 	}
 }
+@media screen and (min-width: 320px) and (max-width: 490px) {
+	form.createNote {
+		width: 310px;
+	}
+}

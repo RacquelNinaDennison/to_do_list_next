@@ -15,8 +15,8 @@ function Navbar() {
 
 	return (
 		<div className={styles.container}>
-			<Toaster />
 			<nav className={styles.header}>
+				<Toaster />
 				<h1 className={styles.logo}>
 					<Link
 						className={styles.anchor}
@@ -31,7 +31,9 @@ function Navbar() {
 
 				<ul className={`${styles.ul} ${classNameExtra} ${styles.mainNav}`}>
 					<li>
-						<Link href='/todolist'>list</Link>
+						<Link className='link' href='/todolist'>
+							list
+						</Link>
 					</li>
 					<li>
 						{status === "unauthenticated" && <Link href='/login'>Sign in</Link>}
@@ -40,6 +42,7 @@ function Navbar() {
 					<li>
 						{status === "authenticated" && (
 							<a
+								className='link'
 								onClick={() =>
 									signOut({ callbackUrl: process.env.NEXTAUTH_URL })
 								}
@@ -52,6 +55,7 @@ function Navbar() {
 						{status === "authenticated" && (
 							<div className={styles.userName}>
 								<span
+									className='link'
 									onClick={() => {
 										toast("Welcome " + session.user.name, { icon: "🤗" });
 									}}

@@ -44,6 +44,7 @@ $button-color: #ff8989;
 	box-shadow: 0 2px 5px #ccc;
 	padding: 10px;
 	width: 240px;
+	overflow: scroll;
 	height: max-content;
 	margin: 16px;
 	float: left;
@@ -83,6 +84,28 @@ $button-color: #ff8989;
 			border: solid #9db2bf;
 			opacity: 0.65;
 			cursor: not-allowed;
+		}
+	}
+}
+
+@media screen and (min-width: 320px) and (max-width: 490px) {
+	.note {
+		width: 100px;
+
+		& h1 {
+			font-size: 0.9em;
+			margin-bottom: 6px;
+			font-style: italic;
+		}
+		& p {
+			font-size: 0.8em;
+			margin-bottom: 10px;
+			white-space: pre-wrap;
+			word-wrap: break-word;
+		}
+
+		& button {
+			font-size: 0.8em;
 		}
 	}
 }

@@ -14,6 +14,8 @@
 }
 .container {
 	border-bottom: solid white;
+	display: flex;
+	justify-content: space-evenly;
 }
 .logo {
 	margin: 0;
@@ -72,5 +74,22 @@
 	margin-right: 15px;
 	&:hover {
 		color: #ff8989;
+	}
+}
+
+@media screen and (min-width: 320px) and (max-width: 490px) {
+	.mainNav {
+		flex-direction: column; /* Stack links vertically */
+		align-items: flex-end; /* Align links from the right */
+		justify-content: space-between;
+	}
+
+	.mainNav a:hover {
+		display: inline-flex;
+		flex-direction: column;
+		justify-content: center;
+		height: 30px;
+		text-align: center;
+		vertical-align: middle;
 	}
 }
