@@ -140,7 +140,7 @@ export const Tasks = (props: Props) => {
 		});
 	}
 	if (isSuccess) {
-		console.log(data.data.note);
+		
 	}
 
 	return (

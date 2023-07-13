@@ -1,7 +1,7 @@
 import styles from "./note.module.scss";
 import React from "react";
 import { Note } from "@prisma/client";
-import { boolean } from "zod";
+
 
 type Props = {
 	note: Note;
